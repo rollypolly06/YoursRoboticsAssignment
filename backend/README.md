@@ -1,7 +1,6 @@
-# YoursRoboticsAssignment
-This is the take-home assignment for the role of software engineer at Yours Robotics.
+# Fleet Ops Console Backend
 
-# Setup Backend
+## Setting up
 Version of Python 3.10+
 
 1. Set up a virtual environment
