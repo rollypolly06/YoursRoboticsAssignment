@@ -1,5 +1,6 @@
 import FileUploader from "./FileUpload";
 import { useState, useEffect } from "react";
+import RobotsView from "./RobotsView";
 
 const Dashboard = () => {
 
@@ -10,9 +11,9 @@ const Dashboard = () => {
 
       { showUpload && <FileUploader/> }
 
-      <div className="flex flex-col gap-1 w-[30%] h-full">
-        <div className="flex-1 min-h-0 border">
-          Robots
+      <div className="flex flex-col gap-1 w-[40%] h-full">
+        <div className="flex-1 min-h-0">
+          <RobotsView/>
         </div>
 
         <div className="flex-1 min-h-0 border">
@@ -20,7 +21,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="flex flex-col w-[70%] h-full gap-1">
+      <div className="flex flex-col w-[60%] h-full gap-1">
 
         <div className="flex-1 min-h-0 border">
           Footfall

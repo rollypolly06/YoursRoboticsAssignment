@@ -11,7 +11,7 @@ function App() {
       <section className='main-section flex flex-col items-center justify-between mt-16 w-full lg:w-[100vw] h-[90vh] max-h-[90vh] gap-4 p-4'>
         <Dashboard/>
       </section>
-      <Footer version={"0.0.1"}/>
+      <Footer version={"0.1.0"}/>
     </div>
   )
 }
