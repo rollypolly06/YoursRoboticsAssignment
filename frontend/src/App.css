@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+:root {
+  margin: 0 auto;
+
+  /* Dark color palette */
+  --bg-dark:      hsl(0 0% 10%);
+  --bg:           hsl(0 0% 15%);
+  --bg-light:     hsl(0 0% 20%);
+  --text:         hsl(0 0% 95%);
+  --text-muted:   hsl(0 0% 70%);
+  --primary:      hsl(247 66% 79%);
+  --secondary:    hsl(149 41% 62%);
+  --tertiary:     hsl(355 66% 75%);
+  --highlight:    hsl(0 0% 60%);
+  --border:       hsl(0 0% 30%);
+  --border-card:    solid 1px var(--border);
+  --gradient:       linear-gradient(0deg, var(--bg) 95%, var(--bg-light));
+  --gradient-hover: linear-gradient(0deg, var(--bg), var(--bg-light));
+  --shadow: 0px 2px 2px hsla(0, 0%, 0%, 0.07), 0px 4px 4px hsla(0, 0%, 0%, 0.15);
+  --shadow-large: 0px 4px 4px hsla(0, 0%, 0%, 0.12), 0px 4px 4px hsla(0, 0%, 0%, 0.20);
+}
+
+body.light-mode {
+  /* Light color palette */
+  --bg-dark:      hsl(0 0% 90%);
+  --bg:           hsl(0 0% 95%);
+  --bg-light:     hsl(0 0% 100%);
+  --text:         hsl(0 0% 5%);
+  --text-muted:   hsl(0 0% 30%);
+  --highlight:    hsl(0 0% 100%);
+  --border:       hsl(0 0% 30%);
+  --border-card:    solid 1px var(--bg);
+  --gradient:       linear-gradient(0deg, var(--bg) 95%, var(--bg-light));
+  --gradient-hover: linear-gradient(0deg, var(--bg), var(--bg-light));
+}
+
+button {
+  background: var(--bg);
+  color: var(--text);
+  border-radius: 2.5rem;
+  border: var(--border-card);
+  border-top: solid 1px var(--highlight);
+  box-shadow: var(--shadow);
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  transition: 100ms;
+}
+
+button:hover:enabled {
+  cursor: pointer;
+  background: var(--gradient-hover);
+  box-shadow: var(--shadow-large);
+}
+
+button:disabled {
+  background-color: grey;
+  color: lightgray;
+  border: none;
+  cursor: not-allowed;
+}
+
+@theme inline {
+  --color-dark: var(--bg-dark);
+  --color-base: var(--bg);
+  --color-light: var(--bg-light);
+  --color-muted: var(--text-muted);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-tertiary: var(--tertiary);
+}
+
+body {
+  background: var(--bg-dark);
+  color: var(--text);
+  scrollbar-color: var(--text-muted) rgba(0, 0, 0, 0);
+}
+
+.card {
+  background: var(--gradient);
+  color: var(--text);
+  border: var(--border-card);
+  border-top: solid 1px var(--highlight);
+  box-shadow: var(--shadow);
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.card:hover {
+  background: var(--gradient-hover);
+}
+
+.card-light {
+  background: var(--bg-light);
+  color: var(--text);
+  border: var(--border-card);
+  border-top: solid 1px var(--highlight);
+  box-shadow: var(--shadow);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.app-modal-section {
+  background-color: transparent;
+  backdrop-filter: blur(4px);
+  display: flex;
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: var(--gradient);
+  box-shadow: var(--shadow);
+  border-radius: 1rem;
+}

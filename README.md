@@ -6,6 +6,7 @@ Version of Python 3.10+
 
 1. Set up a virtual environment
 ```
+cd backend
 python -m venv venv
 ```
 
@@ -27,4 +28,16 @@ pip install -r requirements.txt
 Ensure virtual environment has been activated with dependencies installed
 ```
 fastapi dev app.py
+```
+
+# Setup Frontend
+Install node dependencies
+```
+cd frontend
+npm i
+```
+## Running frontend application
+Open application in browser at http://localhost:5173
+```
+npm run dev
 ```
