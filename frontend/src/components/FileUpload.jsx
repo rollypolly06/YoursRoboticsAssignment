@@ -1,14 +1,17 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Trash } from 'lucide-react';
 
-import { uploadFile } from '../api'; // Your backend function
+import { uploadFile, getRobots } from '../api';
+import { useDataContext } from '../context';
 
-export default function FileUploader() {
+export default function FileUploader({onClose}) {
   const [files, setFiles] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   
   const fileInputRef = useRef(null);
+
+  const { fetchData } = useDataContext();
 
   // --- Drag and Drop Handlers ---
   const handleDragOver = (e) => {
@@ -52,24 +55,40 @@ export default function FileUploader() {
     setFiles((prevFiles) => prevFiles.filter((_, index) => index !== indexToRemove));
   };
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onClose]);
+
   const handleSubmit = async () => {
     if (files.length === 0) return;
     
     setIsUploading(true);
     try {
       await uploadFile(files);
-      alert("Files uploaded successfully!");
       setFiles([]); // Clear list on success
+
+      // Fetch data
+      await fetchData();
     } catch (error) {
       console.error("Upload failed:", error);
-      alert("Failed to upload files.");
     } finally {
+      onClose()
       setIsUploading(false);
     }
   };
 
   return (
-    <div className="w-full max-w-lg mx-auto font-sans">
+    <div className="app-modal-section w-full max-w-lg mx-auto font-sans">
       {/* Drag & Drop Zone */}
       <div 
         onDragOver={handleDragOver}

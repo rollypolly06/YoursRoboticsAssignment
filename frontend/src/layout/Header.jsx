@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import { Moon, Sun, Bot, Download, Loader } from "lucide-react";
+import { Moon, Sun, Bot, Upload, Loader, RefreshCcw } from "lucide-react";
+import { useDataContext } from "../context";
 
-const Header = () => {
+const Header = ({toggleShowUpload}) => {
   const [isLightMode, setIsLightMode] = useState(false);
+
+  const { fetchData } = useDataContext();
 
   const toggleLightMode = () => {
     setIsLightMode((prev) => !prev);
@@ -19,6 +22,16 @@ const Header = () => {
       </div>
 
       <div className="flex gap-4 justify-end items-center w-full">
+        <button className="!rounded-[50%] !px-2 !py-2" title="Download .json data"
+          onClick={fetchData}
+        >
+          <RefreshCcw/>
+        </button>
+        <button className="!rounded-[50%] !px-2 !py-2" title="Download .json data"
+          onClick={toggleShowUpload}
+        >
+          <Upload/>
+        </button>
         <button className="!rounded-[50%] !px-2 !py-2" title="toggle light/dark mode" 
           onClick={toggleLightMode}
         >

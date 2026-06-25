@@ -27,3 +27,8 @@ export async function getRobots() {
   const res = await fetch(`${BASE_URL}/robots`);
   return await handleResponse(res);
 }
+
+export async function getVending() {
+  const res = await fetch(`${BASE_URL}/vending`);
+  return await handleResponse(res);
+}
