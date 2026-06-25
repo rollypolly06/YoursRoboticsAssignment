@@ -1,7 +1,7 @@
 from fastapi import APIRouter, UploadFile, File
 from pathlib import Path
 import shutil
-from .handler import parse_robots, parse_vending
+from .handler import parse_robots, parse_vending, parse_footfall, parse_interactions
 
 router = APIRouter()
 
@@ -35,3 +35,13 @@ async def get_robots():
 async def get_vending():
     vending = await parse_vending()
     return { "data": vending }
+
+@router.get("/footfall")
+async def get_footfall():
+    footfall = await parse_footfall()
+    return { "data": footfall }
+
+@router.get("/interactions")
+async def get_interactions():
+    interactions = await parse_interactions()
+    return { "data": interactions }

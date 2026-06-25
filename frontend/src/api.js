@@ -32,3 +32,13 @@ export async function getVending() {
   const res = await fetch(`${BASE_URL}/vending`);
   return await handleResponse(res);
 }
+
+export async function getFootfall() {
+  const res = await fetch(`${BASE_URL}/footfall`);
+  return await handleResponse(res);
+}
+
+export async function getInteractions() {
+  const res = await fetch(`${BASE_URL}/interactions`);
+  return await handleResponse(res);
+}
