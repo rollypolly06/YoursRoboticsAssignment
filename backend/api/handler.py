@@ -109,43 +109,50 @@ async def parse_interactions():
   with open("uploads/interactions.csv") as csv_file:
     csv_reader = csv.DictReader(csv_file)
 
-    success_count = 0
-    error_count = 0
-    abandoned_count = 0
-    converted_count = 0
     sessions = {}
-    repeated_sessions = {}
 
-    for row in csv_reader:
+    total_count = defaultdict(int)
+    campaigns = defaultdict(lambda: defaultdict(int))
+    types = defaultdict(lambda: defaultdict(int))
+    robot_interactions = defaultdict(lambda: defaultdict(int))
+    
+    # sort data first
+    sorted_data = sorted(csv_reader, key=lambda x: x['timestamp'], reverse=True)
+    available_robots = ["R-01", "R-02", "R-03", "R-04", "R-05", "R-06", "R-07", "R-08", "R-09", "R-10"]
+
+    for row in sorted_data:
       # handle repeated session_id
       session_id = row["session_id"]
-      if session_id in sessions:
-        if session_id in repeated_sessions:
-          repeated_sessions[session_id].append(row)
-        else:
-          repeated_sessions[session_id] = [sessions[session_id], row]
+
+      # Skip repeated session_id or invalid robot_id
+      if session_id in sessions or row["robot_id"] not in available_robots:
         continue
       
       sessions[session_id] = row
 
-      if row["type"] == 'qr_scan':
-        if row["outcome"] == 'completed':
-          success_count += 1
-          if row["converted"]:
-            converted_count += 1
-        elif row["outcome"] == 'error':
-          error_count += 1
-        elif row["outcome"] == 'abandoned':
-          abandoned_count += 1
+      type = row["type"]
+      outcome = row["outcome"]
+      campaign_id = row["campaign_id"]
+      robot_id = row["robot_id"]
 
-  return {
-    "sessions": list(sessions.values()),
-    "repeated_sessions": repeated_sessions,
-    "success_count": success_count,
-    "error_count": error_count,
-    "abandoned_count": abandoned_count,
-    "converted_count": converted_count
-  }
+      if type == 'qr_scan':
+        if row["converted"] == 'true':
+          campaigns[campaign_id]["converted"] += 1
+        else:
+          campaigns[campaign_id]["not_converted"] += 1
+
+      types[type][outcome] += 1
+      total_count[outcome] += 1
+      robot_interactions[robot_id][type] += 1
+  
+    # sorted_robots_interactions = sorted(robot_interactions)
+
+    return {
+      "total_count": total_count,
+      "types": types,
+      "robot_interactions": robot_interactions,
+      "campaigns": campaigns
+    }
 
   
 async def parse_telemetry(robot_id):
@@ -153,7 +160,7 @@ async def parse_telemetry(robot_id):
       row["state"] = row["state"].lower()      
       row["zone"] = row["zone"].strip().upper().replace("_", "-")
       return row
-      
+        
   with open("uploads/telemetry.csv") as csv_file:
       csv_reader = csv.DictReader(csv_file)
 
@@ -225,3 +232,4 @@ async def parse_navEvents(robot_id):
           },
           "severity_count": {"info": 0, "warn": 0, "error": 0, "": 0}
       })
+  
