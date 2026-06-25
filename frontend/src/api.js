@@ -42,3 +42,13 @@ export async function getInteractions() {
   const res = await fetch(`${BASE_URL}/interactions`);
   return await handleResponse(res);
 }
+
+export async function getTelemetry(robot_id = "all") {
+  const res = await fetch(`${BASE_URL}/robot/telemetry/${robot_id}`);
+  return await handleResponse(res);
+}
+
+export async function getNavEvents(robot_id = "all") {
+  const res = await fetch(`${BASE_URL}/robot/nav-events/${robot_id}`);
+  return await handleResponse(res);
+}

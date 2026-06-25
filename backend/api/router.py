@@ -1,7 +1,7 @@
 from fastapi import APIRouter, UploadFile, File
 from pathlib import Path
 import shutil
-from .handler import parse_robots, parse_vending, parse_footfall, parse_interactions
+from .handler import parse_robots, parse_vending, parse_footfall, parse_interactions, parse_telemetry, parse_navEvents
 
 router = APIRouter()
 
@@ -45,3 +45,13 @@ async def get_footfall():
 async def get_interactions():
     interactions = await parse_interactions()
     return { "data": interactions }
+
+@router.get("/robot/telemetry/{robot_id}")
+async def get_telemetry(robot_id: str):
+    telemetry = await parse_telemetry(robot_id)
+    return { "data": telemetry }
+
+@router.get("/robot/nav-events/{robot_id}")
+async def get_nav_events(robot_id: str):
+    navEvents = await parse_navEvents(robot_id)
+    return { "data": navEvents }
