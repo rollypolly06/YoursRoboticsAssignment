@@ -48,7 +48,7 @@ const InteractionsView = () => {
                     </div>
                     {/* Map through Interaction Types for column headers */}
                     {interactionTypes.map((type) => (
-                      <div key={`header-${type}`} className="flex-1 p-1 border font-bold text-center capitalize">
+                      <div key={`header-${type}`} className="flex flex-1 p-1 border font-bold text-center items-center justify-center capitalize">
                         {type.replace('_', ' ')}
                       </div>
                     ))}
@@ -94,7 +94,7 @@ const InteractionsView = () => {
                   </div>
                   {/* Map through Interaction Types for column headers */}
                   {interactionTypes.map((type) => (
-                    <div key={`header-${type}`} className="flex-1 min-w-0 p-1 border font-bold text-center capitalize">
+                    <div key={`header-${type}`} className="flex flex-1 min-w-0 p-1 border font-bold text-center items-center justify-center capitalize">
                       {type.replace('_', ' ')}
                     </div>
                   ))}
@@ -137,7 +137,7 @@ const InteractionsView = () => {
                   </div>
                   {/* Map through columns for headers */}
                   {campaignColumns.map((col) => (
-                    <div key={`header-${col}`} className="flex-1 min-w-0 p-1 border font-bold text-center capitalize">
+                    <div key={`header-${col}`} className="flex flex-1 min-w-0 p-1 border font-bold text-center items-center justify-center capitalize">
                       {col.replace('_', ' ')}
                     </div>
                   ))}
