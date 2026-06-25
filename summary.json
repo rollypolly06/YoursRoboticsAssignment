@@ -1,0 +1,53 @@
+{
+  "fleet": {
+    "total_robots": 10,
+    "active_robots": 0
+  },
+  "vending": {
+    "total_revenue_sgd": 54889.50,
+    "transactions_counted": 1110
+  },
+  "qr": {
+    "total_scans": 1214,
+    "conversions": 394,
+    "conversion_rate": 0.32
+  },
+  "metric_definitions": {
+    "availability": "REPLACE: your one-line definition of availability/uptime",
+    "active_robots": "REPLACE: your one-line definition of an active robot"
+  },
+  "data_quality": {
+    "anomalies": [
+      {
+        "type": "Duplicated txn_id",
+        "entity": "vending.csv",
+        "note": "Duplicated txn_id found within this file. Leads to erroneous calculation. Sorted data by recent timestamp first, processed only most recent data"
+      },
+      {
+        "type": "Duplicated session_id",
+        "entity": "interactions.csv",
+        "note": "Duplicated txn_id found within this file. Sorted data by recent timestamp first, processed only most recent data"
+      },
+      {
+        "type": "Invalid robot_id",
+        "entity": "interactions.csv",
+        "note": "robot_id of R-99 was detected, no such robot exists. Data not processed"
+      },
+      {
+        "type": "Inconsistent zone naming",
+        "entity": "footfall.csv",
+        "note": "There was a mix of PDD-A and PDD_A zone_id. Normalized data before processing, replacing '_' with '-'."
+      },
+      {
+        "type": "Battery level drops when charging",
+        "entity": "telemetry.csv",
+        "note": "In some cases, when robot is charging, battery percentage drops while status is charging."
+      },
+      {
+        "type": "Inconsistent upper/lower casing of states",
+        "entity": "telemetry.csv",
+        "note": "Some instances of state being 'CHARGING' instead of 'charging'. Normalized the data by changing casing all to lower case."
+      }
+    ]
+  }
+}

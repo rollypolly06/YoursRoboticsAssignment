@@ -33,15 +33,13 @@ async def parse_vending():
       "SNACK-CHIPS": 0,
       "SNACK-CHOC": 0
     }
+    sorted_data = sorted(csv_reader, key=lambda x: x['timestamp'], reverse=True)
 
-    for row in csv_reader:
+    for row in sorted_data:
       id = row["txn_id"]
       
+      # Ignore duplicated transactions
       if id in transactions:
-        if id in repeated:
-          repeated[id].append(row)
-        else:
-          repeated[id] = [transactions[id], row]
         continue
       
       transactions[id] = row
@@ -153,83 +151,81 @@ async def parse_interactions():
       "robot_interactions": robot_interactions,
       "campaigns": campaigns
     }
-
   
 async def parse_telemetry(robot_id):
   def normalize_row(row):
-      row["state"] = row["state"].lower()      
-      row["zone"] = row["zone"].strip().upper().replace("_", "-")
-      return row
-        
+    row["state"] = row["state"].lower()      
+    row["zone"] = row["zone"].strip().upper().replace("_", "-")
+    return row
+      
   with open("uploads/telemetry.csv") as csv_file:
-      csv_reader = csv.DictReader(csv_file)
+    csv_reader = csv.DictReader(csv_file)
 
-      robots_data = {}
+    robots_data = {}
 
-      for row in csv_reader:
-        normalized_row = normalize_row(row)
-        curr_id = normalized_row["robot_id"]
-            
-        # Initialize the data structure for a new robot if it doesn't exist yet
-        if curr_id not in robots_data:
-            robots_data[curr_id] = {
-                "entries": []
-            }
-        robots_data[curr_id]["entries"].append(normalized_row)
-      
-      # Sort the entries by timestamp for each robot we tracked
-      for r_id, data in robots_data.items():
-          data["entries"] = sorted(data["entries"], key=lambda x: x['timestamp'], reverse=True)
-
-      # Return the nested dictionary if "all" was requested
-      if robot_id == "all":
-          return robots_data
-      
-      return robots_data.get(robot_id, {
+    for row in csv_reader:
+      normalized_row = normalize_row(row)
+      curr_id = normalized_row["robot_id"]
+          
+      # Initialize the data structure for a new robot if it doesn't exist yet
+      if curr_id not in robots_data:
+        robots_data[curr_id] = {
           "entries": []
-      })
+        }
+      robots_data[curr_id]["entries"].append(normalized_row)
+    
+    # Sort the entries by timestamp for each robot we tracked
+    for r_id, data in robots_data.items():
+      data["entries"] = sorted(data["entries"], key=lambda x: x['timestamp'], reverse=True)
+
+    # Return the nested dictionary if "all" was requested
+    if robot_id == "all":
+      return robots_data
+    
+    return robots_data.get(robot_id, {
+      "entries": []
+    })
     
 async def parse_navEvents(robot_id):
   with open("uploads/nav_events.csv") as csv_file:
-      csv_reader = csv.DictReader(csv_file)
+    csv_reader = csv.DictReader(csv_file)
 
-      robots_data = {}
+    robots_data = {}
 
-      for row in csv_reader:
-        curr_id = row["robot_id"]
-        
-        # Initialize the data structure for a new robot if it doesn't exist yet
-        if curr_id not in robots_data:
-            robots_data[curr_id] = {
-                "events": [],
-                "event_count": {
-                    "path_blocked": 0, "replan": 0, "estop": 0, 
-                    "manual_takeover": 0, "dock": 0, "undock": 0, "fault": 0
-                },
-                "severity_count": {
-                    "info": 0, "warn": 0, "error": 0, "": 0
-                }
-            }
-        
-        # Append the event and increment the specific robot's counters
-        robots_data[curr_id]["events"].append(row)
-        robots_data[curr_id]["event_count"][row["event_type"]] += 1
-        robots_data[curr_id]["severity_count"][row["severity"]] += 1
-
-      # Sort the filtered events by timestamp for each robot we tracked
-      for r_id, data in robots_data.items():
-          data["events"] = sorted(data["events"], key=lambda x: x['timestamp'], reverse=True)
-
-      # Return the nested dictionary if "all" was requested
-      if robot_id == "all":
-          return robots_data
+    for row in csv_reader:
+      curr_id = row["robot_id"]
       
-      return robots_data.get(robot_id, {
+      # Initialize the data structure for a new robot if it doesn't exist yet
+      if curr_id not in robots_data:
+        robots_data[curr_id] = {
           "events": [],
           "event_count": {
-              "path_blocked": 0, "replan": 0, "estop": 0, 
-              "manual_takeover": 0, "dock": 0, "undock": 0, "fault": 0
+            "path_blocked": 0, "replan": 0, "estop": 0, 
+            "manual_takeover": 0, "dock": 0, "undock": 0, "fault": 0
           },
-          "severity_count": {"info": 0, "warn": 0, "error": 0, "": 0}
-      })
-  
+          "severity_count": {
+            "info": 0, "warn": 0, "error": 0, "": 0
+          }
+        }
+      
+      # Append the event and increment the specific robot's counters
+      robots_data[curr_id]["events"].append(row)
+      robots_data[curr_id]["event_count"][row["event_type"]] += 1
+      robots_data[curr_id]["severity_count"][row["severity"]] += 1
+
+    # Sort the filtered events by timestamp for each robot we tracked
+    for r_id, data in robots_data.items():
+      data["events"] = sorted(data["events"], key=lambda x: x['timestamp'], reverse=True)
+
+    # Return the nested dictionary if "all" was requested
+    if robot_id == "all":
+      return robots_data
+    
+    return robots_data.get(robot_id, {
+      "events": [],
+      "event_count": {
+        "path_blocked": 0, "replan": 0, "estop": 0, 
+        "manual_takeover": 0, "dock": 0, "undock": 0, "fault": 0
+      },
+      "severity_count": {"info": 0, "warn": 0, "error": 0, "": 0}
+    })
