@@ -88,7 +88,9 @@ const RobotModal = ({robotId, onClose}) => {
                       {telemetryHeaders.map((key) => (
                         <td 
                           key={`cell-${rowIndex}-${key}`} 
-                          className={`p-2 text-center ${key == "state" ? getStyling(row[key]) : ""}`}
+                          className={`p-2 text-center ${key == "state" ? getStyling(row[key]) : 
+                            key == "speed_mps" && row["state"] == 'navigating' && row[key] == 0.0 ? "text-red-500" : ""
+                            }`}
                         >
                           {row[key]}
                         </td>

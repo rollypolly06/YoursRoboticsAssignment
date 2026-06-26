@@ -8,8 +8,14 @@ async def parse_robots():
     csv_reader = csv.DictReader(csv_file)
     data = []
 
+    telemetry = await parse_telemetry("all")
     for row in csv_reader:
-      data.append(row)
+      id = row["robot_id"]
+      status = "Inactive"
+      state = telemetry[id]["entries"][0]["state"]
+      if state == "navigating" or state == "interacting":
+        status = "Active"
+      data.append({**row, "status": status})
 
     return data
   

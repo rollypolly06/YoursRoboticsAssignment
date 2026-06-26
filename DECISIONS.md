@@ -5,7 +5,7 @@
 
 ## Metric definitions
 - **Availability / uptime:** _how did you define it, and why?_
-- **Active robot:** _what counts as active?_
+- **Active robot:** Based on the most recent telemetry event, a robot is 'active' if it is in the state of 'navigating' or 'interacting'.
 - _Any other term you had to pin down..._
 
 ## Assumptions I made

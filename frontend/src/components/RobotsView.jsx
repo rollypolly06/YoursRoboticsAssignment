@@ -23,10 +23,10 @@ const RobotsView = () => {
       { robots && 
         <div className="flex flex flex-col min-h-0 overflow-x-auto">
           <div 
-            className="grid grid-cols-5 font-bold"
+            className="grid grid-cols-6 font-bold"
           >
             {robots[0] && Object.keys(robots[0]).map(k => {
-              return <div key={k}>{k}</div>
+              return <div key={k}>{k == "firmware_version" ? "FW" : k}</div>
             })}
           </div>
           <div className="flex flex-col gap-1 overflow-y-auto min-h-0">
@@ -34,7 +34,7 @@ const RobotsView = () => {
               robots.map((robot) => {
                 return (
                   <div 
-                    className="grid grid-cols-5 hover:bg-dark hover:cursor-pointer"
+                    className="grid grid-cols-6 hover:bg-dark hover:cursor-pointer"
                     key={robot.robot_id}
                     onClick={() => {handleSelected(robot.robot_id)}}
                   >

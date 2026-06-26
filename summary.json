@@ -1,7 +1,7 @@
 {
   "fleet": {
     "total_robots": 10,
-    "active_robots": 0
+    "active_robots": 1
   },
   "vending": {
     "total_revenue_sgd": 54889.50,
@@ -14,7 +14,7 @@
   },
   "metric_definitions": {
     "availability": "REPLACE: your one-line definition of availability/uptime",
-    "active_robots": "REPLACE: your one-line definition of an active robot"
+    "active_robots": "Based on the most recent telemetry event, a robot is 'active' if it is in the state of 'navigating' or 'interacting'."
   },
   "data_quality": {
     "anomalies": [
@@ -47,6 +47,11 @@
         "type": "Inconsistent upper/lower casing of states",
         "entity": "telemetry.csv",
         "note": "Some instances of state being 'CHARGING' instead of 'charging'. Normalized the data by changing casing all to lower case."
+      },
+      {
+        "type": "Robot R-07 navigating but speed is 0",
+        "entity": "telemetry.csv, Robot R-07",
+        "note": "Robot has a state of navigating but the speed is at 0.0. Indicates that robot have an error or is blocked. Highlight the entries visually for user's attention"
       }
     ]
   }
