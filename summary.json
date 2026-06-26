@@ -13,7 +13,7 @@
     "conversion_rate": 0.32
   },
   "metric_definitions": {
-    "availability": "REPLACE: your one-line definition of availability/uptime",
+    "availability": "If a robot is 'interacting' or 'navigating', it is considered available and accumulates uptime.",
     "active_robots": "Based on the most recent telemetry event, a robot is 'active' if it is in the state of 'navigating' or 'interacting'."
   },
   "data_quality": {

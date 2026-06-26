@@ -1,9 +1,44 @@
 import csv
-from datetime import datetime
+from datetime import datetime, timedelta
 from collections import defaultdict
 
 
 async def parse_robots():
+
+  def calculate_uptime(data):
+    if data:
+      # Define the exact format of your timestamp string
+      time_format = "%Y-%m-%d %H:%M:%S"
+      
+      # 1. Parse the first (most recent) and last (oldest) timestamps
+      most_recent = datetime.strptime(data[0]["timestamp"], time_format)
+      oldest = datetime.strptime(data[-1]["timestamp"], time_format)
+      
+      # Calculate the initial elapsed time
+      total_elapsed = most_recent - oldest
+      print(f"Initial elapsed time: {total_elapsed}")
+      
+      # 2. Define the deduction amount
+      deduction_time = timedelta(minutes=30)
+      
+      # 3. Loop through all elements and deduct based on state
+      for element in data:
+        state = element.get("state")
+        
+        if state in ["idle", "charging"]:
+          total_elapsed -= deduction_time
+      
+      # formatting elapsed time
+      days = total_elapsed.days
+      hours = total_elapsed.seconds // 3600
+      minutes = (total_elapsed.seconds % 3600) // 60
+
+      # Format as DD HH:MM with zero-padding (e.g., 01 05:09)
+      formatted_time = f"{days:02d}D {hours}H {minutes:02d}m"
+      print(f"Adjusted elapsed time: {formatted_time}")
+      return formatted_time
+
+
   with open("uploads/robots.csv") as csv_file:
     csv_reader = csv.DictReader(csv_file)
     data = []
@@ -15,8 +50,11 @@ async def parse_robots():
       state = telemetry[id]["entries"][0]["state"]
       if state == "navigating" or state == "interacting":
         status = "Active"
-      data.append({**row, "status": status})
-
+    
+      # Calculate uptime of robot
+      uptime = calculate_uptime(telemetry[id]["entries"])
+      data.append({**row, "status": status, "uptime": uptime})
+      
     return data
   
 async def parse_vending():

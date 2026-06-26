@@ -23,7 +23,7 @@ const RobotsView = () => {
       { robots && 
         <div className="flex flex flex-col min-h-0 overflow-x-auto">
           <div 
-            className="grid grid-cols-6 font-bold"
+            className="grid grid-cols-7 font-bold"
           >
             {robots[0] && Object.keys(robots[0]).map(k => {
               return <div key={k}>{k == "firmware_version" ? "FW" : k}</div>
@@ -34,7 +34,7 @@ const RobotsView = () => {
               robots.map((robot) => {
                 return (
                   <div 
-                    className="grid grid-cols-6 hover:bg-dark hover:cursor-pointer"
+                    className="grid grid-cols-7 hover:bg-dark hover:cursor-pointer"
                     key={robot.robot_id}
                     onClick={() => {handleSelected(robot.robot_id)}}
                   >

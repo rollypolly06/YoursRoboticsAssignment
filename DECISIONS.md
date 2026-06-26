@@ -4,13 +4,12 @@
 > important parts of your submission — it is where we see how you think.
 
 ## Metric definitions
-- **Availability / uptime:** _how did you define it, and why?_
+- **Availability / uptime:** If a robot is 'interacting' or 'navigating', it is considered available and accumulates uptime. For robots that are charging or idling, it is not currently performing any tasks, hence not considered up and running. 
 - **Active robot:** Based on the most recent telemetry event, a robot is 'active' if it is in the state of 'navigating' or 'interacting'.
 - _Any other term you had to pin down..._
 
 ## Assumptions I made
-- _List the assumptions you made where the brief or data was ambiguous, and what you'd do
-  differently if an assumption turned out to be wrong._
+- Assume robot to be up and running only when it is interacting or navigating. charging and idle state is assumed to be inactive. Should this assumption be wrong, adjust uptime calculation logic.
 
 ## Data quality — what I found and how I handled it
 - _One line per issue. (This should align with your `summary.json` anomalies.)_
