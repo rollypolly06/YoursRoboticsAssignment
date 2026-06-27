@@ -2,6 +2,7 @@ import csv
 from datetime import datetime, timedelta
 from collections import defaultdict
 
+available_robots = []
 
 async def parse_robots():
 
@@ -46,6 +47,8 @@ async def parse_robots():
     telemetry = await parse_telemetry("all")
     for row in csv_reader:
       id = row["robot_id"]
+      if id not in available_robots:
+        available_robots.append(id)
       status = "Inactive"
       state = telemetry[id]["entries"][0]["state"]
       if state == "navigating" or state == "interacting":
@@ -68,7 +71,7 @@ async def parse_vending():
     refunded_amount = 0
     failed_amount = 0
     transactions = {}
-    repeated = {}
+    robots = defaultdict(lambda: defaultdict(int))
 
     sales = {
       "DRINK-COLA": 0,
@@ -80,26 +83,34 @@ async def parse_vending():
     sorted_data = sorted(csv_reader, key=lambda x: x['timestamp'], reverse=True)
 
     for row in sorted_data:
-      id = row["txn_id"]
+      txn_id = row["txn_id"]
+      robot_id = row["robot_id"]
+
+      sku = row["sku"]
+      qty = int(row["qty"])
+      payment_status = row["payment_status"]
       
       # Ignore duplicated transactions
-      if id in transactions:
+      if txn_id in transactions or robot_id not in available_robots:
         continue
       
-      transactions[id] = row
+      transactions[txn_id] = row
 
       amount = float(row["amount"])
 
-      if row["payment_status"] == "paid":
+      if payment_status == "paid":
         success_count += 1
-        sales[row["sku"]] += int(row["qty"])
+        sales[sku] += qty
         total_profits += amount
-      elif row["payment_status"] == "failed":
+        robots[robot_id][sku] += qty
+        continue
+      elif payment_status == "failed":
         failed_count += 1
         failed_amount += amount
-      elif row["payment_status"] == "refunded":
+      elif payment_status == "refunded":
         refunded_count += 1
         refunded_amount += amount
+      robots[robot_id][payment_status] += 1
 
   return {
     "failed_count": failed_count,
@@ -109,8 +120,8 @@ async def parse_vending():
     "refunded_amount": refunded_amount,
     "failed_amount": failed_amount,
     "transactions": transactions,
-    "repeated": repeated,
-    "sales": sales
+    "sales": sales,
+    "robots": robots
   }
 
 async def parse_footfall():
@@ -160,7 +171,6 @@ async def parse_interactions():
     
     # sort data first
     sorted_data = sorted(csv_reader, key=lambda x: x['timestamp'], reverse=True)
-    available_robots = ["R-01", "R-02", "R-03", "R-04", "R-05", "R-06", "R-07", "R-08", "R-09", "R-10"]
 
     for row in sorted_data:
       # handle repeated session_id
