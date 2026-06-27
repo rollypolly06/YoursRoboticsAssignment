@@ -41,3 +41,16 @@ Open application in browser at http://localhost:5173
 ```
 npm run dev
 ```
+
+## Directory Structure
+```
+root/
+├── README.md            # how to run it from a clean clone
+├── DECISIONS.md         # assumptions, definitions, trade-offs, what you cut, known issues
+├── RND_MEMO.md          # ≤1 page: the capability you'd build next + who pays for it
+├── WALKTHROUGH.zip      # Extract the .zip file to view the walkthrough video 
+├── summary.json         # machine-readable results
+├── data/                # Data .csv files
+├── backend/             # Backend API
+└── frontend/            # Frontend Application
+```

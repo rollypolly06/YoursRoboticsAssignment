@@ -22,12 +22,12 @@ const Header = ({toggleShowUpload}) => {
       </div>
 
       <div className="flex gap-4 justify-end items-center w-full">
-        <button className="!rounded-[50%] !px-2 !py-2" title="Download .json data"
+        <button className="!rounded-[50%] !px-2 !py-2" title="Refresh"
           onClick={fetchData}
         >
           <RefreshCcw/>
         </button>
-        <button className="!rounded-[50%] !px-2 !py-2" title="Download .json data"
+        <button className="!rounded-[50%] !px-2 !py-2" title="Upload data files"
           onClick={toggleShowUpload}
         >
           <Upload/>

@@ -4,8 +4,8 @@
     "active_robots": 1
   },
   "vending": {
-    "total_revenue_sgd": 54889.50,
-    "transactions_counted": 1110
+    "total_revenue_sgd": 54884.50,
+    "transactions_counted": 1108
   },
   "qr": {
     "total_scans": 1214,
@@ -26,11 +26,11 @@
       {
         "type": "Duplicated session_id",
         "entity": "interactions.csv",
-        "note": "Duplicated txn_id found within this file. Sorted data by recent timestamp first, processed only most recent data"
+        "note": "Duplicated session_id found within this file. Sorted data by recent timestamp first, processed only most recent data"
       },
       {
         "type": "Invalid robot_id",
-        "entity": "interactions.csv",
+        "entity": "interactions.csv, vending.csv",
         "note": "robot_id of R-99 was detected, no such robot exists. Data not processed"
       },
       {
