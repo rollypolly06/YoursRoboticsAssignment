@@ -22,7 +22,7 @@ function App() {
       </section>
 
       {showUpload && <FileUploader onClose={() => {setShowUpload(false)}}/>}
-      <Footer version={"0.2.0"}/>
+      <Footer version={"1.0.0"}/>
     </div>
   )
 }
