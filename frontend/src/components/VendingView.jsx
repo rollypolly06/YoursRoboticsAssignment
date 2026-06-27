@@ -24,26 +24,28 @@ const VendingView = () => {
       <div className="flex flex-row w-full justify-between gap-4">
         <h1>Vending</h1> 
         {/* Vending sales metrics */}
-        <div className="flex flex-wrap shrink-0 gap-4">
-          <div className="grid grid-cols-2 gap-x-2">
-            <h2 className="text-green-500">Successful:</h2>
-            <h2>{vending?.success_count}</h2>
-            <h2>Sales amt:</h2>
-            <h2>${convertToDollars(vending?.total_profits)}</h2>
+        { vending && 
+          <div className="flex flex-wrap shrink-0 gap-4">
+            <div className="grid grid-cols-2 gap-x-2">
+              <h2 className="text-green-500">Successful:</h2>
+              <h2>{vending.success_count}</h2>
+              <h2>Sales amt:</h2>
+              <h2>${convertToDollars(vending.total_profits)}</h2>
+            </div>
+            <div className="grid grid-cols-2 gap-x-2">
+              <h2 className="text-amber-500">Refunded:</h2>
+              <h2>{vending.refunded_count}</h2>
+              <h2>Refunded amt:</h2>
+              <h2>${convertToDollars(vending.refunded_amount)}</h2>
+            </div>
+            <div className="grid grid-cols-2 gap-x-2">
+              <h2 className="text-red-500">Failed:</h2>
+              <h2>{vending.failed_count}</h2>
+              <h2>Failed amt:</h2>
+              <h2>${convertToDollars(vending.failed_amount)}</h2>
+            </div>
           </div>
-          <div className="grid grid-cols-2 gap-x-2">
-            <h2 className="text-amber-500">Refunded:</h2>
-            <h2>{vending?.refunded_count}</h2>
-            <h2>Refunded amt:</h2>
-            <h2>${convertToDollars(vending?.refunded_amount)}</h2>
-          </div>
-          <div className="grid grid-cols-2 gap-x-2">
-            <h2 className="text-red-500">Failed:</h2>
-            <h2>{vending?.failed_count}</h2>
-            <h2>Failed amt:</h2>
-            <h2>${convertToDollars(vending?.failed_amount)}</h2>
-          </div>
-        </div>
+        }
       </div>
 
       { vending &&

@@ -22,12 +22,15 @@ const InteractionsView = () => {
       {/* Takes up its natural height */}
       <div className="flex flex-row justify-between gap-4">
         <h1>Interactions</h1> 
-        <section className="flex flex-wrap gap-4 shrink-0">
-          <p className="font-bold ">Total: {total.completed + total.abandoned + total.error}</p>
-          <p className="font-bold text-green-500">Completed: {total.completed}</p>
-          <p className="font-bold text-amber-500">Abandoned: {total.abandoned}</p>
-          <p className="font-bold text-red-500">Error: {total.error}</p>
-        </section>
+
+        { total && 
+          <section className="flex flex-wrap gap-4 shrink-0">
+            <p className="font-bold ">Total: {total.completed + total.abandoned + total.error}</p>
+            <p className="font-bold text-green-500">Completed: {total.completed}</p>
+            <p className="font-bold text-amber-500">Abandoned: {total.abandoned}</p>
+            <p className="font-bold text-red-500">Error: {total.error}</p>
+          </section>
+        }
       </div>
       
       { interactions && 
